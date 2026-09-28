@@ -4,6 +4,7 @@ import Notification from "../models/notification.model.js";
 import { getEnabledChannels } from "../services/preference.service.js";
 import { renderTemplate } from "../services/template.service.js";
 import { emailQueue } from "../queues/email.queue.js";
+import { emitter } from "../config/emitter.js";
 
 const SUPPORTED_CHANNELS = ["in_app", "email"]
 
@@ -37,6 +38,19 @@ const eventWorker = new Worker(
 
                 if (channel === "email") {
                     await emailQueue.add("send-email", { notificationId: notification._id.toString() }, { jobId: notification._id.toString() })
+                }
+
+                if (channel === "in_app") {
+                    emitter.to(`user:${userId}`).emit("notification", {
+                        id: notification._id,
+                        eventType,
+                        body: notification.body,
+                        createdAt: notification.createdAt
+                    })
+
+                    notification.status = "sent"
+                    notification.sentAt = new Date()
+                    await notification.save()
                 }
 
                 console.log(`NOTIFICATION CREATED: ${eventType} / ${channel} / ${userId}`)
