@@ -19,6 +19,7 @@ const notificationSchema = new mongoose.Schema({
 
 notificationSchema.index({ idempotencyKey: 1, channel: 1 }, { unique: true })
 notificationSchema.index({ userId: 1, createdAt: -1 })
+notificationSchema.index({ userId: 1, channel: 1, isRead: 1 })
 
 const Notification = mongoose.model("Notification", notificationSchema)
 export default Notification

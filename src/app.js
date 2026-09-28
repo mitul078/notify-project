@@ -2,6 +2,7 @@ import express from "express"
 import helmet from "helmet"
 import cors from "cors"
 import morgan from "morgan"
+import notificationRoutes from "./routes/notification.routes.js"
 
 const app = express()
 
@@ -12,6 +13,8 @@ app.use(express.json({ limit: "100kb" }))
 
 app.get("/health", (req, res) => res.json({ status: "ok" }))
 
+
+app.use("/api/notifications", notificationRoutes)
 
 app.use((req, res) => res.status(404).json({ message: "ROUTE NOT FOUND" }))
 app.use((err, req, res, next) => {
