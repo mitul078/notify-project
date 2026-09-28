@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "npx nodemon server.js",
     "start": "node server.js",
-    "worker": "node worker.js"
+    "worker": "node worker.js",
+    "lint": "eslint src",
+    "test": "jest --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -26,5 +28,13 @@
     "nodemailer": "^10.0.11",
     "socket.io": "^4.8.4",
     "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.29.7",
+    "@babel/preset-env": "^7.29.7",
+    "babel-jest": "^30.5.2",
+    "eslint": "^10.11.0",
+    "jest": "^30.5.2",
+    "nodemon": "^3.1.14"
   }
 }
